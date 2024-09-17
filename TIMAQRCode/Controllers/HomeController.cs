@@ -63,10 +63,10 @@ namespace TIMAQRCode.Controllers
             //emvCoQRData = "00020101021238590010A0000007270129000697044101150087040600864380208QRIBFTTA530370454061000005802VN62160812DTxxx dau tu6304A143";
             //Bitmap qrCodeImage = BitmapExtension.GenerateQRCode(emvCoQRData);
             //Bitmap qrCodeImage = BitmapExtension.GenerateQRCodeWithLogo(emvCoQRData, "Images/logo.png");
-            var banks = await BitmapExtension.GetBanks();
-            var logoBank = banks.FirstOrDefault(c => c.Bin == qRCode.BankId).Logo;
+            //var banks = await BitmapExtension.GetBanks();
+            //var logoBank = banks.FirstOrDefault(c => c.Bin == qRCode.BankId).Logo;
             //Bitmap qrCodeImage = BitmapExtension.GenerateQRCodeWithLogo(emvCoQRData, "Images/logo.png");
-            Bitmap qrCodeImage = await BitmapExtension.GenerateQRCodeWithLogoAndFooter(emvCoQRData, "Images/logo.png", "Images/logoTIMA.png", "Images/napas.png", logoBank);
+            Bitmap qrCodeImage = await BitmapExtension.GenerateQRCodeWithLogoAndFooter(emvCoQRData, "Images/logo.png", "Images/logoTIMA.png", "Images/napas.png", "haha");
             byte[] BitmapArray = qrCodeImage.BitmapToByteArray();
             string QrUri = string.Format("data:image/png;base64,{0}", Convert.ToBase64String(BitmapArray));
             ViewBag.QrCodeUri = QrUri;
@@ -288,24 +288,24 @@ namespace TIMAQRCode.Controllers
             }
 
             // Load the footer logo from file
-            Bitmap footerLogoBitmap;
-            //footerLogoBitmap = new Bitmap(Path.Combine(Directory.GetCurrentDirectory(), footerLogoRelativePath));
-            footerLogoBitmap = await LoadBitmapFromUrlAsync(footerLogoRelativePath);
-            // Resize the footer logo
-            int maxFooterLogoWidth = (int)(qrCodeWithLogo.Width * logoSizePercentage / 100.0);
-            int maxFooterLogoHeight = (int)(qrCodeWithLogo.Height * logoSizePercentage / 100.0);
-            if (footerLogoBitmap.Width > maxFooterLogoWidth || footerLogoBitmap.Height > maxFooterLogoHeight)
-            {
-                int footerLogoSize = Math.Min(maxFooterLogoWidth, maxFooterLogoHeight);
-                footerLogoBitmap = new Bitmap(footerLogoBitmap, new Size(footerLogoSize, footerLogoSize));
-            }
-            else
-            {
-                double scale = Math.Min(maxFooterLogoWidth / (double)footerLogoBitmap.Width, maxFooterLogoHeight / (double)footerLogoBitmap.Height);
-                int newWidth = (int)(footerLogoBitmap.Width * scale);
-                int newHeight = (int)(footerLogoBitmap.Height * scale);
-                footerLogoBitmap = new Bitmap(footerLogoBitmap, new Size(newWidth, newHeight));
-            }
+            //Bitmap footerLogoBitmap;
+            ////footerLogoBitmap = new Bitmap(Path.Combine(Directory.GetCurrentDirectory(), footerLogoRelativePath));
+            //footerLogoBitmap = await LoadBitmapFromUrlAsync(footerLogoRelativePath);
+            //// Resize the footer logo
+            //int maxFooterLogoWidth = (int)(qrCodeWithLogo.Width * logoSizePercentage / 100.0);
+            //int maxFooterLogoHeight = (int)(qrCodeWithLogo.Height * logoSizePercentage / 100.0);
+            //if (footerLogoBitmap.Width > maxFooterLogoWidth || footerLogoBitmap.Height > maxFooterLogoHeight)
+            //{
+            //    int footerLogoSize = Math.Min(maxFooterLogoWidth, maxFooterLogoHeight);
+            //    footerLogoBitmap = new Bitmap(footerLogoBitmap, new Size(footerLogoSize, footerLogoSize));
+            //}
+            //else
+            //{
+            //    double scale = Math.Min(maxFooterLogoWidth / (double)footerLogoBitmap.Width, maxFooterLogoHeight / (double)footerLogoBitmap.Height);
+            //    int newWidth = (int)(footerLogoBitmap.Width * scale);
+            //    int newHeight = (int)(footerLogoBitmap.Height * scale);
+            //    footerLogoBitmap = new Bitmap(footerLogoBitmap, new Size(newWidth, newHeight));
+            //}
 
             Bitmap finalBitmap = new Bitmap(qrCodeWithLogo.Width, qrCodeWithLogo.Height + footerBitmap.Height + headerBitmap.Height);
             using (Graphics graphics = Graphics.FromImage(finalBitmap))
@@ -324,9 +324,9 @@ namespace TIMAQRCode.Controllers
                 graphics.DrawImage(footerBitmap, new Rectangle(footerX, footerY, footerBitmap.Width, footerBitmap.Height));
 
                 // Draw footer logo (aligned right)
-                int footerLogoX = (qrCodeWithLogo.Width / 2); // Align footer logo to the right
-                int footerLogoY = footerY + (footerBitmap.Height - footerLogoBitmap.Height) / 2; // Center vertically
-                graphics.DrawImage(footerLogoBitmap, new Rectangle(footerLogoX, footerLogoY, footerLogoBitmap.Width * 2, footerLogoBitmap.Height));
+                //int footerLogoX = (qrCodeWithLogo.Width / 2); // Align footer logo to the right
+                //int footerLogoY = footerY + (footerBitmap.Height - footerLogoBitmap.Height) / 2; // Center vertically
+                //graphics.DrawImage(footerLogoBitmap, new Rectangle(footerLogoX, footerLogoY, footerLogoBitmap.Width * 2, footerLogoBitmap.Height));
             }
             return finalBitmap;
         }
