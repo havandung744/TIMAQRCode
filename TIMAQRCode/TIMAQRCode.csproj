@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <Folder Include="Images\" />
+    <Folder Include="Jsons\" />
   </ItemGroup>
 
 </Project>
